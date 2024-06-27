@@ -1,0 +1,2 @@
+[Yakshin]
+10.5.1.147 ansible_ssh_user=alexya ansible_sudo_pass=12345678

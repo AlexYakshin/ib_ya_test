@@ -1,0 +1,31 @@
+- name: HW Ansible
+  hosts: Yakshin
+  become: yes
+  become_method: sudo
+  tasks:
+   - name: Installing CMATRIX
+     apt:
+      name: cmatrix
+      state: present
+      update_cache: true
+   - name: Installing COWSAY
+     apt:
+      name: cowsay
+      state: present
+      update_cache: true
+   - name: Installing SL
+     apt:
+      name: sl
+      state: present
+      update_cache: true
+
+#- name: example
+#  hosts: Yakshin
+#  become: yes
+#  become_method: sudo
+#  tasks:
+#   - name: Installing Apache2
+#     apt: 
+#      name: apache2 
+#      state: present 
+#      update_cache: true
