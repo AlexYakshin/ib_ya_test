@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apache-deployment
+  labels:
+    app: webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+      - name: webapp
+        image: apache
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+        env:
+        - name: USER_NAME
+          valueFrom:
+            secretKeyRef:
+              name: msql-secret
+              key: username
+        - name: USER_PWD
+          valueFrom:
+            secretKeyRef:
+              name: msql-secret
+              key: password
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: apache-config
+              key: dbname
+        - name: DB_URL
+          valueFrom:
+            configMapKeyRef:
+              name: apache-config
+              key: url
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: apache-service
+spec:
+  type: NodePort
+  selector:
+    app: webapp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30200
+
